@@ -40,3 +40,5 @@ Draw the chance every bar, so the stream stays stable, and choose it from how of
 | Bright repeats and tails | dark echo and reverb |
 | Hard seams between pieces | a pulse across the join, fades, held chords |
 | Everything exactly on the beat | seeded looseness where the style is loose |
+| A periodic swell, duck or pad re-attack | it is heard as a pulse; keep it out of a track meant to sit in the background |
+| A restart or key change at each piece boundary in a track that should loop | keep the key, chords and riffs for the whole session and vary only the lead |

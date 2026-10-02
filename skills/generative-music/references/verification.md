@@ -43,7 +43,7 @@ Ask for ten minutes of listening, ideally in the place the music will play, and 
 | too loud, too quiet | levels not matched | measure RMS against the other tracks |
 | boring, flat | no form, no register movement | add a break; move the tonic between pieces |
 | harsh hats or clicks | bright noise unfiltered | band-pass lower, shorten, reduce velocity |
-| pumping, odd breathing | modulation too fast or too deep | slow it down, shrink the depth |
+| pumping, a "whmm" or pulse in the background, odd breathing | a swell or duck that repeats every bar or beat (a pad that re-attacks with each chord, a kick-driven duck on the beds), or modulation too fast or deep | hold the bed across chord changes, drop the swell or the duck, or slow and shrink the modulation |
 | restarts jarringly | cut at a seam | fade out, hold a chord |
 
 Change one thing per round and measure again before asking again.

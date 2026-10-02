@@ -1,0 +1,64 @@
+{
+  "triggers": [
+    {
+      "query": "Write a seeded generative ambient soundtrack for my web app with Web Audio.",
+      "expect": "load"
+    },
+    {
+      "query": "My generated lo-fi loop gets annoying after ten minutes and the hats are piercing. How do I fix it?",
+      "expect": "load"
+    },
+    {
+      "query": "Add a dreamy space-themed track to my game's procedural music system.",
+      "expect": "load"
+    },
+    {
+      "query": "Compose a melody and chord progression for my song in C minor.",
+      "expect": "skip",
+      "owner": "a music-composition or songwriting skill"
+    },
+    {
+      "query": "Master and EQ my recorded podcast so the voice is clearer.",
+      "expect": "skip",
+      "owner": "an audio-mixing skill"
+    },
+    {
+      "query": "Write a prompt for Suno to make a lo-fi beat.",
+      "expect": "skip",
+      "owner": "a text-to-music prompting skill"
+    }
+  ],
+  "behavior": [
+    {
+      "task": "Design the composer for an endless calm space-themed ambient track for a web app that plays for hours, can replay from a seed, and should get denser and brighter when the app is busy. Give the architecture, the pitch world, the layers and how you will check that it is not shrill.",
+      "assert": [
+        "Uses a seeded pseudo-random generator and states that the composer never calls Math.random",
+        "Draws the same number of random numbers whatever the app state is, so calm and busy runs share chords and sections",
+        "Holds chords for several bars (four or more) and avoids a functional cadence",
+        "Includes a layer whose length does not divide the bar, so the pattern does not repeat for many bars",
+        "Keeps sustained voices low and names a register ceiling, or says how it will check the share of energy above about 2 kHz",
+        "Uses a long dark reverb with a high-passed return, or an equivalent way to add space",
+        "Verifies with tests (reproducible, in range) and a measurement of level and spectrum, not only by listening"
+      ]
+    },
+    {
+      "task": "A generated ambient track uses soft bell notes. A listener says a high-pitched tone starts to bother them after a few minutes. Say what you would check and change, in order.",
+      "assert": [
+        "Measures the output (level and the share of energy above about 2 kHz) before changing anything",
+        "Lowers the register of the loudest sustained or bell voice, or its upper partial, before touching the notes or harmony",
+        "Adds or lowers a voice or master low-pass and darkens the echo or reverb return as a later step",
+        "Changes one thing per round and measures again"
+      ]
+    },
+    {
+      "task": "I am not a composer. My generated synthwave-style driving track loops badly and something in the background sounds weird: the bass pattern and arpeggio change randomly each bar and the drums drop out when the piece restarts. How should the track be built so it loops well and still has a hook?",
+      "assert": [
+        "Locks the bass and arp riff on the grid, varying only at phrase ends (a fill or turnaround bar) and section changes, not randomly per bar",
+        "Names the riff or a short lead motif as the hook and has it return with one change",
+        "Keeps a pulse (kick, bass or pad) running across the loop join so there is no dropout, with loop lengths in whole bars",
+        "Explains terms in plain language for a non-musician",
+        "Suggests a measurable check, such as a test that the groove is identical across bars"
+      ]
+    }
+  ]
+}

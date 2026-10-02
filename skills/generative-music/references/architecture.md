@@ -43,11 +43,12 @@ function createRng(seed: number) {
 
 ## The player
 
-- Schedule ahead with the audio clock, never from timers alone: a timer fires every 50 to 100 ms, looks 200 to 300 ms ahead, and schedules every bar that starts inside that window on `AudioContext.currentTime`. Keep two bars buffered.
+- Schedule ahead with the audio clock, never from timers alone: a timer fires every 50 to 100 ms and schedules every bar that starts inside a lookahead window on `AudioContext.currentTime`. Make the window generous (most of a bar rather than a few hundred milliseconds): a busy page, a scroll, a heavy animation or a throttled background tab delays the timer, and a short window turns every delay into a dropout.
+- If a late timer finds the next bar already in the past, move the schedule to just after now instead of scheduling into the past, which plays the notes in a burst.
 - Change tempo only at bar starts, and set tempo-dependent nodes (an echo time in steps) at the same moment.
 - Create the context on a user gesture. Show a blocked state until then and resume on the first pointer or key event.
 - Fade out on stop (0.3 to 0.5 s) and disconnect nodes after the fade; a leaked node per bar becomes thousands in an hour.
-- Suspend the context when the page is hidden.
+- Suspend the context when the page is hidden, and when it is shown again, resume it and run the scheduler at once rather than waiting for the next timer.
 
 ## Adapting to the app
 

@@ -1,14 +1,17 @@
 #!/usr/bin/env node
 // Level and spectrum report for a WAV file, to judge a generated track before a person listens.
-// Usage: node analyze-wav.mjs file.wav [--profile calm|lively]   |   node analyze-wav.mjs --selftest
+// Usage: node analyze-wav.mjs file.wav [--profile calm|lively] [--max-peak 0.25] [--split 2000] [--max-above 0.01]
+//        node analyze-wav.mjs --selftest
+// The profiles are conveniences, not standards: take the limits from the style being built.
 // Reads 16-bit PCM or 32-bit float WAV. No dependencies. Exit 0 when the profile holds, 1 when it does not, 2 on bad input.
 import { readFileSync } from 'node:fs'
 
 const PROFILES = {
-  calm: { maxPeak: 0.25, maxAbove2k: 0.01 },
-  lively: { maxPeak: 0.6, maxAbove2k: 0.2 },
+  calm: { maxPeak: 0.25, maxAbove: 0.01 },
+  lively: { maxPeak: 0.6, maxAbove: 0.2 },
 }
 const BANDS = [[0, 200], [200, 500], [500, 2000], [2000, 4000], [4000, 8000], [8000, Infinity]]
+const numberArg = (name) => (process.argv.includes(name) ? Number(process.argv[process.argv.indexOf(name) + 1]) : undefined)
 const SIZE = 4096
 
 function parseWav(buf) {
@@ -54,10 +57,11 @@ function fft(re, im) {
   }
 }
 
-export function analyze({ rate, samples }) {
+export function analyze({ rate, samples }, split = 2000) {
   let sum = 0, peak = 0
   for (const v of samples) { sum += v * v; peak = Math.max(peak, Math.abs(v)) }
   const power = BANDS.map(() => 0)
+  let above = 0
   let total = 0
   const re = new Float64Array(SIZE), im = new Float64Array(SIZE)
   for (let at = 0; at + SIZE <= samples.length; at += SIZE) {
@@ -66,18 +70,19 @@ export function analyze({ rate, samples }) {
     for (let bin = 1; bin < SIZE / 2; bin++) {
       const hz = (bin * rate) / SIZE, p = re[bin] ** 2 + im[bin] ** 2
       power[BANDS.findIndex(([lo, hi]) => hz >= lo && hz < hi)] += p
+      if (hz >= split) above += p
       total += p
     }
   }
   const share = power.map((p) => (total ? p / total : 0))
-  return { rms: Math.sqrt(sum / Math.max(1, samples.length)), peak, bands: BANDS.map(([lo, hi], i) => ({ lo, hi, share: share[i] })), above2k: share.slice(3).reduce((a, b) => a + b, 0) }
+  return { rms: Math.sqrt(sum / Math.max(1, samples.length)), peak, bands: BANDS.map(([lo, hi], i) => ({ lo, hi, share: share[i] })), above: total ? above / total : 0 }
 }
 
-const judge = (report, profile) => {
-  const limit = PROFILES[profile]
+const judge = (report, profile, split = 2000) => {
+  const limit = { ...PROFILES[profile], ...(numberArg('--max-peak') !== undefined && { maxPeak: numberArg('--max-peak') }), ...(numberArg('--max-above') !== undefined && { maxAbove: numberArg('--max-above') }) }
   const problems = []
   if (report.peak > limit.maxPeak) problems.push(`peak ${report.peak.toFixed(3)} is over ${limit.maxPeak}`)
-  if (report.above2k > limit.maxAbove2k) problems.push(`${(report.above2k * 100).toFixed(2)}% of energy above 2 kHz is over ${limit.maxAbove2k * 100}%`)
+  if (report.above > limit.maxAbove) problems.push(`${(report.above * 100).toFixed(2)}% of energy above ${split} Hz is over ${limit.maxAbove * 100}%`)
   return problems
 }
 
@@ -90,7 +95,7 @@ function tone(rate, seconds, parts) {
 function selftest() {
   const calm = analyze(tone(44100, 3, [[220, 0.1], [440, 0.05]]))
   const bright = analyze(tone(44100, 3, [[220, 0.1], [5000, 0.4]]))
-  const ok = judge(calm, 'calm').length === 0 && judge(bright, 'calm').length === 2 && calm.above2k < 0.001 && bright.above2k > 0.5
+  const ok = judge(calm, 'calm').length === 0 && judge(bright, 'calm').length === 2 && calm.above < 0.001 && bright.above > 0.5
   console.log(ok ? 'selftest passed' : 'selftest FAILED')
   process.exit(ok ? 0 : 1)
 }
@@ -101,9 +106,10 @@ const file = args.find((a) => !a.startsWith('--'))
 const profile = args.includes('--profile') ? args[args.indexOf('--profile') + 1] : 'calm'
 if (!file || !PROFILES[profile]) { console.error('usage: analyze-wav.mjs file.wav [--profile calm|lively] | --selftest'); process.exit(2) }
 try {
-  const report = analyze(parseWav(readFileSync(file)))
-  const problems = judge(report, profile)
-  console.log(`rms ${report.rms.toFixed(4)}  peak ${report.peak.toFixed(3)}  above 2 kHz ${(report.above2k * 100).toFixed(2)}%`)
+  const split = numberArg('--split') ?? 2000
+  const report = analyze(parseWav(readFileSync(file)), split)
+  const problems = judge(report, profile, split)
+  console.log(`rms ${report.rms.toFixed(4)}  peak ${report.peak.toFixed(3)}  above ${split} Hz ${(report.above * 100).toFixed(2)}%`)
   for (const b of report.bands) console.log(`${String(b.lo).padStart(5)}-${b.hi === Infinity ? 'inf' : b.hi}`.padEnd(14) + `${(b.share * 100).toFixed(1)}%`)
   console.log(problems.length ? `profile ${profile} broken: ${problems.join('; ')}` : `profile ${profile} holds`)
   process.exit(problems.length ? 1 : 0)

@@ -16,7 +16,7 @@ Everything else in this skill makes a track sound good. This file is about what 
 
 ## Rules a generator should enforce
 
-Tune-ness is made of limits. Each rule is a number a test can check. The numbers are craft conventions from educators and producers, not experiments, except where marked.
+Tune-ness is made of limits. Each rule is a number a test can check. The numbers are craft conventions from educators and producers, not experiments, except where marked, and some styles break them on purpose; the style sheet decides.
 
 1. **Mostly steps.** About two thirds to three quarters of the intervals between melody notes move one or two scale degrees. A leap of a fourth or more is rare, and one in four or five notes at most.
 2. **Recover leaps.** After a leap, step back the other way. Never follow a big leap with another in the same direction.
@@ -42,15 +42,9 @@ Every operation is one line on a list of (scale degree, length) pairs:
 
 Plan the piece before playing it: pick the key, chords, motif and form up front, expand the form to a list of bars, and then fill each bar. A model that only picks the next note from the last two or three (a Markov chain) wanders, because it has no phrase, no return and no ending.
 
-## What each kind of track needs
+## Where the idea lives in a style
 
-| Track | The idea | Where the variety comes from |
-| --- | --- | --- |
-| Ambient, space | No hook: a hook would pull attention. A few slow gestures, or a bell pool, drifting | independent layers, a slow arc, rare events |
-| Lo-fi | A two-bar motif on a soft pluck, stated, answered and ornamented, then closed | rests, a soft independent layer, 4-bar chord loops with a changed second half |
-| Driving, synthwave | The riff is the hook: a bass or arp pattern locked on the grid, plus a lead on a motif | phrase ends (a fill, a turnaround bar), section changes, a breakdown and a drop, never random gating |
-| Game or UI loop | A short theme, an intro that plays once, a loop body, stingers on events | vertical layers added and removed on bar lines, segments chosen at the next bar |
-| Film-style bed | No tune: sustained pads, slow fades in and out (1–3 s in, 4–10 s out), unresolved chords | slow modulation only |
+Ask the style sheet, and expect the answer to differ: in some styles the idea is a melody on a lead, in some it is a bass or arpeggio riff locked to the grid, in some it is a chord rhythm, in some it is a slow gesture or a texture, and in some there is deliberately no hook because it would pull the ear. Where the idea is a locked pattern, vary it at phrase ends and section changes, not note by note. Where there is no hook, say so in the sheet and let the variety come from the long-form mechanisms. Two illustrations: a groove-based dance track may keep its piano-stab rhythm locked and turn around every fourth bar; an atmospheric bed may have no hook at all.
 
 ## Tests for tune-ness
 

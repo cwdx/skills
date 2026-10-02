@@ -2,38 +2,25 @@
 
 ## The grid
 
-Work on 16 steps per bar. Every layer is a pattern of steps, a length in steps and a velocity.
+Work on a fixed number of steps per bar (sixteen sixteenth notes is the usual choice). Every layer is a pattern of steps, a length and a velocity, so layers can be placed, shifted and repeated on integers, and a bar is a list that a test can read.
 
-## Swing and humanising
+## Feel
 
-- Swing delays every second sixteenth by a share of a step. Take a small amount (10–20% of a step) for gentle lo-fi and more for a lazy hip-hop feel. Use one scale for the number and say which.
-- Jitter the timing of drums and plucks by a few milliseconds, seeded, and keep it off the downbeat bass. Real players are early and late by 10–25 ms; a grid of identical onsets sounds mechanical.
-- Vary velocity within a range (±10–20%). Hats sit at 55–70% of full velocity and an accent adds some; ghost notes are 20–30%.
-- Apply swing and jitter in the player when it schedules, and keep the composer's output on the grid, so the score stays readable and testable.
+- **Swing** delays every second step by a share of a step. Communities quote swing on different scales (a percentage of the beat, of the step, or a drum machine's own scale), so the style sheet must say which scale a number is on, and the code must use one scale throughout.
+- **Looseness** is small seeded timing offsets, mostly late, applied when notes are scheduled rather than written into the score. It should be large enough to feel played and small enough to stay in time; the sheet gives the style's tightness, and a listening round tunes it. Keep the bass and the kick tight, because they anchor the groove.
+- **Velocity** varies within a range so no two onsets are identical; accents and ghost notes are part of a style's pattern, so they come from the sheet.
+- Keep the composer's output on the grid and do swing and looseness in the player, so the score stays readable and testable.
 
 ## Density
 
-- Give each section a density: how many events per bar each layer plays. Build with the form (sparse, fuller, sparse), not with a ramp that never turns around.
-- Put a rest probability on every layer. A star, bell or pluck that fires on each of its steps becomes a pattern; one that fires 40–60% of the time becomes a texture.
-- Let app state add events, never remove the structure: more ghost notes, more stars, a hat on an off step. The chords, form and tempo stay where they are.
+- Give each section a density, meaning how many events each layer plays per bar, and build the form with it: sparse to full and back, as the style does.
+- Give a layer a rest probability only if the style's layer rests. A pattern that is the identity of the style (a kick pattern, a riff) stays locked, and a texture that is supposed to drift rests and varies.
+- Let app state add or remove events, never rearrange the structure: chords, form and tempo stay where they are.
 
 ## Independent clocks
 
-For calm tracks only: a driving groove stays locked (see step 6 of the skill).
+A layer whose length does not divide the bar returns to the same place only after many bars. Use one when the style wants a texture that shifts against the pulse, with notes drawn from the chord that sounds when each one fires, so it cannot clash. Do not use one on a pattern that gives the style its identity; the sheet says which layers those are.
 
-- Put one layer on a length that does not divide the bar: an event every 11 steps against a bar of 16 returns to the same place only every 11 bars; every 13 steps every 13 bars. Take primes or near-primes (7, 11, 13) and keep the layer soft.
-- Phasing: two copies of one figure at slightly different lengths drift apart and together; use it for texture, quietly.
-- Drive the pitch of the independent layer from the chord that sounds when it fires, so it never clashes however the phase falls.
+## Form
 
-## Forms
-
-| Form | Bars | Notes |
-| --- | --- | --- |
-| Intro | 4 | bed and a few events, bass late |
-| Loop A | 8 | the groove or the bed with its layers |
-| Loop B | 8 | the same with a lead or the independent layer |
-| Break | 4 | thinned or a new colour; no drums in lo-fi |
-| Loop C | 8 | the return |
-| Outro | 4 | strip back to the bed |
-
-A 28 to 36 bar piece is 2 to 4 minutes at calm tempos. Ambient can run in the same pieces, or as one continuous bed that never plans a form and changes only through the slow modulators and the independent layers. Seams between pieces should be a fade or a held chord, not a hard cut.
+Build a piece from sections of two, four or eight bars: an introduction, a main body, a contrasting stretch and a close. Keep the contrast to a few elements at a time (chords, register, drum feel). Whether the music ends, fades or loops back is a tell of the style, so take it from the sheet; when it loops, make sure something (a pulse, a pad, a bass note) runs across the join.

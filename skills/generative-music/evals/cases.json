@@ -1,7 +1,11 @@
 {
   "triggers": [
     {
-      "query": "Write a seeded generative ambient soundtrack for my web app with Web Audio.",
+      "query": "Write a seeded generative soundtrack for my web app with Web Audio.",
+      "expect": "load"
+    },
+    {
+      "query": "I want a generative drum and bass track for my game. I do not know the style well. Where do I start?",
       "expect": "load"
     },
     {
@@ -30,15 +34,13 @@
   ],
   "behavior": [
     {
-      "task": "Design the composer for an endless calm space-themed ambient track for a web app that plays for hours, can replay from a seed, and should get denser and brighter when the app is busy. Give the architecture, the pitch world, the layers and how you will check that it is not shrill.",
+      "task": "I need a generative track in a style I do not know well: 1990s bossa-nova-flavoured lounge music for a hotel app. Describe exactly how you would go about learning the style and what you would produce before writing any code.",
       "assert": [
-        "Uses a seeded pseudo-random generator and states that the composer never calls Math.random",
-        "Draws the same number of random numbers whatever the app state is, so calm and busy runs share chords and sections",
-        "Holds chords for several bars (four or more) and avoids a functional cadence",
-        "Includes a layer whose length does not divide the bar, so the pattern does not repeat for many bars",
-        "Keeps sustained voices low and names a register ceiling, or says how it will check the share of energy above about 2 kHz",
-        "Uses a long dark reverb with a high-passed return, or an equivalent way to add space",
-        "Verifies with tests (reproducible, in range) and a measurement of level and spectrum, not only by listening"
+        "Researches the style on the web from more than one angle (tutorials, theory or education pages, history or gear, analyses of real tracks, listener or forum views) rather than relying on memory",
+        "Produces a written style sheet or spec with fields such as tempo, harmony, rhythm patterns, voices, form and mix, and what the style's defining traits are",
+        "Cross-checks each defining trait against at least two independent sources and marks guesses or unknowns",
+        "Notices that numbers from different sources may use different scales or conventions, or are conventions rather than facts",
+        "Plans to build to the sheet and verify by measurement and listening, not only by listening"
       ]
     },
     {
@@ -58,6 +60,15 @@
         "Keeps a pulse (kick, bass or pad) running across the loop join so there is no dropout, with loop lengths in whole bars",
         "Explains terms in plain language for a non-musician",
         "Suggests a measurable check, such as a test that the groove is identical across bars"
+      ]
+    },
+    {
+      "task": "Design the composer for an endless calm ambient track for a web app that plays for hours, replays from a seed and gets denser and brighter when the app is busy. Give the architecture, how you learn what the style needs, the layers, and how you check it.",
+      "assert": [
+        "Uses a seeded generator and draws the same number of random values whatever the app state is",
+        "Derives its choices from a researched or stated style spec rather than asserting values from memory",
+        "Chooses its variation mechanism to suit the style (for example independent layers for a texture, locked patterns with phrase-end changes for a groove)",
+        "Verifies with tests and a measurement of level and spectrum"
       ]
     }
   ]

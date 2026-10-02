@@ -1,51 +1,41 @@
 # Harmony and pitch
 
-Choose the pitch world first. Randomness that can only pick consonant notes cannot sound wrong.
+Choose the pitch world before the rhythm, from the style sheet. The aim is a set of notes in which randomness cannot sound wrong.
 
-## Modes and what they do
+## Modes: a vocabulary
 
-| Mode | Characteristic note | Character | Use for |
-| --- | --- | --- | --- |
-| Lydian | raised 4th | floating, open, unresolved | space, wonder, dreamy ambient |
-| Dorian | natural 6th in a minor mode | warm, cool, jazzy | lo-fi, focus, night |
-| Mixolydian | flat 7th | relaxed, no leading tone | focus pulse, folk, easy driving |
-| Aeolian (natural minor) | flat 6th and 7th | reflective | lo-fi, melancholy |
-| Phrygian | flat 2nd | dark, tense | action, menace |
+A mode is a scale with a character, set by one or two characteristic notes. A mode is heard only if its characteristic note is placed on a strong beat, in the bass or in a long note; without it the ear files the music under plain major or minor.
 
-A mode survives only if its characteristic note is heard on a strong place or in the bass or a long note. Without it the ear files the music under plain major or minor.
+| Family | Characteristic note | Colour |
+| --- | --- | --- |
+| Major-like with a raised fourth | the raised 4th | floating, open, unresolved |
+| Minor-like with a natural sixth | the natural 6th | warm, cool, jazzy |
+| Major-like with a flat seventh | the flat 7th | relaxed, no pull to the tonic |
+| Natural minor | flat 6th and 7th | reflective |
+| Minor with a flat second | the flat 2nd | dark, tense |
+| Harmonic minor | raised 7th in a minor key | dramatic, exotic |
+| Pentatonic subsets | five notes, no half steps | safe: almost no clashes |
 
-## Chords for stillness
+The style sheet names the mode; this table only tells you what each one does when the sheet is silent or you must pick a neighbour's.
 
-- Stack open voicings: root, fifth, seventh, ninth, and for Lydian a raised eleventh. Leave the third out of some chords; a chord without a third is ambiguous and calm.
-- Spread the stack: put the root in the bass voice, and lift the other tones by at least a fourth or fifth between neighbours. A cluster (two notes a semitone or whole tone apart in the low-middle register) sounds muddy even when quiet.
-- Move chords by common tones or by step. Parallel major sevenths a step apart are the signature sound of calm space music.
-- In ambient, avoid functional dominant-to-tonic cadences. They end things, and an endless track should never end. A major V in a Lydian progression is colour, not a dominant: let it move to I, II or vi, and never add the seventh that pulls it home.
-- Lo-fi takes sevenths, ninths and the occasional eleventh on a close-voiced electric piano: minor 9, major 9, dominant 9. Strum the voices by a few milliseconds.
+## Chords
 
-## Progression patterns
+- Decide how dense a chord is by the style: a triad is plain, a seventh or ninth is smoother, an open stack of fifths is bare. Leaving the third out makes a chord ambiguous and calm; adding extensions makes it jazzier.
+- Spread the voicing. Put the root in the bass, lift the other tones by at least a fourth or fifth between neighbours, and avoid two notes a semitone or whole tone apart in the low-middle register: that cluster is muddy even when quiet.
+- Move between chords by a common tone or a step. Smooth voice leading sounds composed; jumping every voice sounds random.
+- Choose how long a chord lasts from the style: a bar for tight, groove-based music; many bars for static, atmospheric music.
+- Functional cadences (a dominant resolving to the tonic) end things. Use them where the style ends phrases; avoid them where the music must never feel finished. A chord with a dominant's shape that resolves elsewhere is a colour, not a cadence.
 
-Write progressions as scale degrees and keep a handful per track, so a piece picks one and the next piece picks another.
+## Writing progressions
 
-- Lydian: I – II – I – V, I – vi – II – V, vi – I – II – I.
-- Dorian: i – IV – i – VII, i – ii – IV – i.
-- Natural minor lo-fi: i – VI – III – VII, i – iv – VII – III, iv – V – i – i.
-- Move the tonic between pieces by a fourth, a fifth or a second, within a fixed range, so a long session wanders and returns.
+Write progressions as scale degrees, keep a handful per track so that each piece picks one and the next piece picks another, and move the tonic between pieces by a small interval inside a fixed range, so a long session wanders and returns. Take the progressions from the style sheet's sources; an analysis of a few canonical tracks of the style gives them directly. As an illustration of the format only: a bright-mode set might be written I – II – I – V, and a minor-groove set i – VI – III – VII.
 
 ## Note pools that never clash
 
-- For bells and sparse lines over a Lydian bed, take the major pentatonic plus the major seventh (degrees 1 2 3 5 6 7). Add the raised fourth rarely and quietly: one note that bends the pool is a colour, many of them is a clash.
-- For a layer that moves independently of the chord, draw its pitch from the tones of the chord sounding now, mapped into the layer's register. It stays consonant through every chord change.
-- A walk through the pool (step ±1 or ±2 from the previous note) sounds like a melody; a uniform random pick sounds like noise.
+- For a sparse line over a sustained chord, take a pentatonic-like subset of the mode, and allow one note outside it rarely and quietly, as a declared exception with a probability.
+- For a layer that moves independently of the chords, take its pitch from the tones of the chord sounding at that moment, mapped into the layer's register. It stays consonant through every chord change.
+- Walk through the pool by steps of one or two places rather than picking uniformly: a walk sounds like a line, a uniform pick sounds like noise.
 
 ## Registers
 
-Write a register as two MIDI numbers per voice and keep them in the track, not scattered in the code.
-
-| Voice | A calm track's range | Why |
-| --- | --- | --- |
-| Sub or bass | MIDI 28–45 | below the chord, single note |
-| Pad body | MIDI 48–80 | where chords live; the voicing spreads across it |
-| Bells, stars, plucks | MIDI 55–85 | soft sines stay gentle here; keep the ceiling low |
-| Anything exposed above | avoid | sustained notes above about C6 get shrill fast |
-
-When a listener says a sound is "high pitched" or "piercing", lower the voice an octave and cut its upper partials before changing the notes.
+Write a register as two numbers per voice and keep them in one place in the track. Take each voice's range from the sheet. Two rules hold in most styles: keep the bass below the chord so the two do not mask each other, and keep an exposed, sustained voice below the band the sheet calls unpleasant, because a long note in a sharp register is the commonest way a generated track tires the ear. When a listener calls a sound high-pitched or piercing, lower the voice an octave and soften its upper partials before changing the notes.

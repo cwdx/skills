@@ -24,9 +24,9 @@ A test that fails on an out-of-range note is how a stray octave jump gets caught
 Measure a real run, not the notes. Two routes:
 
 - **A running page.** Capture the analyser node (patch `AnalyserNode.prototype.getFloatTimeDomainData` once to record `this`), then sample for 10 s per track: RMS from the time-domain data, the peak, and the share of spectral power above 2 kHz from `getFloatFrequencyData` (power is `10 ** (dB / 10)`). Compare tracks in one session so the numbers are comparable.
-- **A rendered file.** Render offline (an `OfflineAudioContext` in a browser, or a Node Web Audio implementation), write a WAV, and run `node scripts/analyze-wav.mjs file.wav --profile calm`. It prints RMS, peak and the band shares and exits 1 when the profile is broken.
+- **A rendered file.** Render offline (an `OfflineAudioContext` in a browser, or a Node Web Audio implementation), write a WAV, and run `node scripts/analyze-wav.mjs file.wav --profile calm`, or with your own limits. It prints RMS, peak and the band shares and exits 1 when a limit is broken.
 
-Targets, which the script's profiles check: a calm track has a peak under 0.25 (about -12 dBFS) before any limiter and under 1% of energy above 2 kHz; a lively track a peak under 0.6 and under 20% above 2 kHz. Keep RMS within about 3 dB of the product's other tracks, which the script prints and you compare.
+Take the targets from the style sheet and pass them to the script: a peak ceiling, the frequency above which a share of energy must stay small, and that share (`--max-peak`, `--split`, `--max-above`). Two presets exist for convenience, `calm` and `lively`; neither is a standard. Keep RMS within a few decibels of the product's other tracks, which the script prints and you compare.
 
 Run `node scripts/analyze-wav.mjs --selftest` once after copying the script: it generates a quiet low tone and a loud bright one and checks that the profile separates them.
 
